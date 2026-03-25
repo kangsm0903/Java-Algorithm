@@ -2,86 +2,98 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.StringTokenizer;
 
 public class Main{
     public static void main(String[] args)throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
         StringTokenizer st;
-
-        Deque<Integer> queue = new ArrayDeque<>();
-
-        int N = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
 
 
-        for(int i=0; i<N; i++){
-            st = new StringTokenizer(br.readLine());
-            String operator = st.nextToken();
+        int T = Integer.parseInt(br.readLine());
+        
+        for(int i=0; i<T; i++){
+            st = new StringTokenizer(br.readLine(), "");
+            ArrayList<String> p = new ArrayList<>();
+
+            StringBuilder sb1 = new StringBuilder();
             
-            if(operator.equals("push")){
-                int data = Integer.parseInt(st.nextToken());
-                push(data, queue);
-                continue;
-            } else if (operator.equals("pop")){
-                sb.append(pop(queue)).append("\n");
-                continue;
-            } else if (operator.equals("size")){
-                sb.append(size(queue)).append("\n");
-                continue;
-            } else if (operator.equals("empty")){
-                sb.append(empty(queue)).append("\n");
-                continue;
-            } else if (operator.equals("front")){
-                sb.append(front(queue)).append("\n");
-                continue;
-            } else if (operator.equals("back")){
-                sb.append(back(queue)).append("\n");
-                continue;
+            // while(st.hasMoreTokens()){
+            //     p.add(st.nextToken());
+            // }
+
+            for(String k : st.nextToken().split("")){
+                p.add(k);
             }
-        }
+            
+            Deque<Integer> x1 = new ArrayDeque<>();
+            Deque<Integer> x2 = new ArrayDeque<>();
+            int flag=1;
 
+            int n = Integer.parseInt(br.readLine());
+            st = new StringTokenizer(br.readLine(), "[],");
+
+            for(int j=0; j<n; j++){
+                x1.offerLast(Integer.parseInt(st.nextToken()));
+            }
+
+            sb1.append('[');
+
+            for(String s : p){
+                if(s.equals("D") && flag==1 && x1.isEmpty()){
+                    sb1.delete(0, sb1.length());
+                    sb1.append("error").append("\n");
+                    flag=0;
+                    break;
+                } else if(s.equals("D") && flag==-1 && x2.isEmpty()){
+                    sb1.delete(0, sb1.length());
+                    sb1.append("error").append("\n");
+                    flag=0;
+                    break;
+                }
+
+                if(s.equals("R") && flag==1){
+                    while(!x1.isEmpty()){
+                        x2.offerFirst(x1.pollFirst());
+                    }
+                    flag*=-1;
+                    continue;
+                } else if(s.equals("R") && flag==-1){ 
+                    while(!x2.isEmpty()){
+                        x1.offerFirst(x2.pollFirst());
+                    }
+                    flag*=-1;
+                    continue;
+                } else if(s.equals("D") && flag==1){
+                    x1.pollFirst();
+                    continue;
+                } else if (s.equals("D") && flag==-1){
+                    x2.pollFirst();
+                    continue;
+                }
+            }
+
+            if(flag==1){
+                for(int data : x1){
+                    sb1.append(data).append(',');
+                }
+            } else if(flag==-1){
+                for(int data : x2){
+                    sb1.append(data).append(',');
+                }
+            }
+
+            if(flag!=0){
+                sb1.delete(sb1.length()-1, sb1.length());
+                sb1.append(']').append('\n');
+            }
+
+            sb.append(sb1);
+        }
+        
         System.out.println(sb);
-    }
-
-    public static void push(int data, Deque<Integer> queue){
-        queue.offerLast(data);
-    }
-
-    public static int pop(Deque<Integer> queue){
-        if(queue.isEmpty()){
-            return -1;
-        } else {
-            return queue.pollFirst();
-        }
-    }
-
-    public static int size(Deque<Integer> queue){
-        return queue.size();
-    }
-
-    public static int empty(Deque<Integer> queue){
-        if(queue.isEmpty()){
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    public static int front(Deque<Integer> queue){
-        if(queue.isEmpty()){
-            return -1;
-        } else {
-            return queue.peekFirst();
-        }
-    }
-
-    public static int back(Deque<Integer> queue){
-        if(queue.isEmpty()){
-            return -1;
-        } else {
-            return queue.peekLast();
-        }
     }
 }
