@@ -5,7 +5,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Main{
+public class B_2178{
 
     static int[] dx = {1,0,-1,0};
     static int[] dy = {0,1,0,-1};

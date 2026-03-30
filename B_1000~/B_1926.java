@@ -5,11 +5,10 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Main{
+public class B_1926{
 
     static int[] dx = {1,0,-1,0};
     static int[] dy = {0,1,0,-1};
-
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -18,25 +17,38 @@ public class Main{
 
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
-
+    
+        int cnt=0;
+        int size=0;
         int[][] board = new int[n][m];
-        int[][] visited = new int[n][m];
-
+        boolean[][] visited = new boolean[n][m];
         Queue<int[]> Q = new ArrayDeque<>();
 
         for(int i=0; i<n; i++){
-            String line = br.readLine();
+            st = new StringTokenizer(br.readLine());
             for(int j=0; j<m; j++){
-                board[i][j] = line.charAt(j)-'0';
+                board[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
+        for(int i=0; i<n; i++){
+            for (int j=0; j<m; j++){
 
-                visited[0][0]=1;
-                Q.offer(new int[]{0,0});
+                // 이미 방문을 했거나, 벽이라면 넘김
+                if(visited[i][j]==true || board[i][j]==0){
+                    continue;
+                }
+
+                int temp=0;
+                cnt++;
+
+                visited[i][j] = true;
+                Q.offer(new int[]{i,j});
 
                 while(!Q.isEmpty()){
-                    int[] cur =  Q.poll();
+                    int[] cur = Q.poll();
+                    temp++;
+                    
                     int curX = cur[0];
                     int curY = cur[1];
 
@@ -44,22 +56,27 @@ public class Main{
                         int nx = curX + dx[dir];
                         int ny = curY + dy[dir];
 
-                        if (nx<0 || ny<0 || nx>=n || ny>=m){
+                        if(nx<0 || ny<0 || nx>=n || ny>=m){
                             continue;
                         }
 
-                        // 이미 방문했음 == 0보다 큼 || board==0 벽이면 넘김
-                        if (visited[nx][ny]>0 || board[nx][ny]!=1){
+                        if(visited[nx][ny]==true || board[nx][ny]==0){
                             continue;
                         }
 
-                        visited[nx][ny] = visited[curX][curY]+1;
-                        Q.offer(new int[]{nx,ny});
+                        visited[nx][ny]=true;
+                        Q.offer(new int[]{nx, ny});
                     }
                 }
+            
+                if(size<temp){
+                    size=temp;
+                }
+            }
+        }
+        sb.append(cnt).append('\n');
+        sb.append(size);
 
-
-        sb.append(visited[n-1][m-1]);
         System.out.println(sb);
     }
 }
