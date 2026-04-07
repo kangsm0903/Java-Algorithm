@@ -5,7 +5,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Main{
+public class B_7562{
     
     static int[] dR = {2,1,-1,-2,-2,-1,1,2};
     static int[] dC = {1,2,2,1,-1,-2,-2,-1};   
@@ -19,7 +19,6 @@ public class Main{
         for(int i=0; i<T; i++){
             int I = Integer.parseInt(br.readLine());
             
-            int[][] board = new int[I][I];
             int[][] visit = new int[I][I];
             Queue<int[]> Q = new ArrayDeque<>();
 
