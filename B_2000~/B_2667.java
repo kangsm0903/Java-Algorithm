@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Queue;
 
-public class Main{
+public class B_2667{
 
     static int[] dR = {1,0,-1,0};
     static int[] dC = {0,1,0,-1};
