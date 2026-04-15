@@ -3,11 +3,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Main{
+public class B_15649{
 
-    static int N;
-    static int M;
-
+    static int N, M;
     static int[] arr;
     static boolean[] isUsed;
 
@@ -26,37 +24,29 @@ public class Main{
         func(0);
 
         System.out.println(sb);
+
     }
 
-    public static void func(int pos){
-        if(pos==M){
+    public static void func(int k){
+        if(k == M){
             for(int i=0; i<M; i++){
                 sb.append(arr[i]).append(" ");
             }
-            sb.append("\n");
+            sb.append('\n');
             return;
         }
 
-        for(int i=1; i<N+1; i++){
-            if(!isUsed[i]){
-                if(pos==0){
-                    arr[pos]=i;
-                    isUsed[i]=true;
-
-                    func(pos+1);
-
-                    isUsed[i]=false;
-                } else if(arr[pos-1] < i){
-                    arr[pos]=i;
-                    isUsed[i]=true;
-
-                    func(pos+1);
-
-                    isUsed[i]=false;
-                }
+        for(int i=1; i<=N; i++){
+            if(isUsed[i]==true){
+                continue;
+            } else {
+                arr[k] = i;
+                isUsed[i]=true;
+    
+                func(k+1);
+    
+                isUsed[i]=false;
             }
         }
-
-
     }
 }
